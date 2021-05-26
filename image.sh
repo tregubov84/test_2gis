@@ -1,11 +1,14 @@
 #!/bin/bash
 FILE=$1
 
+
 function cropImage()
 {
         NAME=$(echo $2 | cut -d'.' -f1)
         EXTENSION=$(echo $2 | cut -d'.' -f2)
-        convert $2 -resize $1 $NAME"_thumbnail."$EXTENSION
+        if ! test -f $NAME"_thumbnail."$EXTENSION; then
+                convert $2 -resize $1 $NAME"_thumbnail."$EXTENSION
+        fi
 }
 
 if test -f "$FILE"; then
@@ -25,4 +28,3 @@ for file in $DIR; do
                 cropImage "x360" $TEMPNAME
         fi
 done
-
